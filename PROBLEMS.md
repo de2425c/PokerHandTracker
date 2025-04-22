@@ -1,0 +1,1 @@
+Log of problems/error the LLM makes
