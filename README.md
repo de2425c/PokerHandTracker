@@ -1,164 +1,71 @@
-# Poker Hand History Parser API
+# Poker Hand History Parser and Replayer
 
-This API converts natural language poker hand history descriptions into a standardized JSON format according to the Open Hand History specification using an LLM for flexible parsing.
+A web application that parses poker hand histories and provides an interactive replayer to visualize the action.
 
-## Installation
+## Features
 
-1. Clone the repository
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-3. Create a `.env` file with your OpenAI API key:
-```bash
-cp .env.example .env
-# Edit .env and add your OpenAI API key
-```
+- Parse poker hand histories from text input
+- Interactive hand replayer with:
+  - Player positions and stacks
+  - Betting action visualization
+  - Community cards
+  - Action log
+  - Dealer button tracking
+- Support for 9-max tables
+- Proper action ordering based on poker positions
 
-## Running the API
+## How to Use
 
-Start the server:
-```bash
-python main.py
-```
+1. **Start the Server**
+   ```bash
+   python main.py
+   ```
+   The server will start on `http://localhost:5000`
 
-The API will be available at `http://localhost:8000`
+2. **Parse a Hand**
+   - Open `http://localhost:5000` in your browser
+   - Paste your poker hand history into the text area
+   - Click "Parse Hand"
+   - The parsed hand will be displayed in JSON format
+   - Click "View Replay" to open the replayer
 
-## API Usage
+3. **Using the Replayer**
+   - The replayer shows a 9-max table with player positions
+   - Player positions are labeled (UTG, UTG+1, UTG+2, Lojack, Hijack, Cutoff, Button, SB, BB)
+   - Click "Start Replay" to begin the hand replay
+   - Use "Next Action" to progress through the hand
+   - The action log on the right shows the sequence of actions
+   - Player stacks and bets are updated automatically
+   - Community cards are revealed as the hand progresses
+   - The dealer button is shown next to the button player's name
 
-Send a POST request to `/parse-hand` with a JSON body containing:
+4. **Controls**
+   - **Start Replay**: Begins the hand replay
+   - **Next Action**: Shows the next action in the hand
+   - **Reset**: Returns to the start of the hand
 
-```json
-{
-    "description": "I opened from the button with Ace-King offsuit for $15, big blind called. Flop came Ten-Seven-Deuce rainbow, I bet $20 and got called. Turn was an Eight, we both checked. River was a King, I bet $50 and got raised to $250",
-    ... additional parameters
-}
-```
+## Hand History Format
 
-Response:
-```json
-{
-    "spec_version": "1.4.7",
-    "site_name": "Custom",
-    "network_name": "Custom",
-    "internal_version": "1.0.0",
-    "tournament": false,
-    "game_number": "1234567890",
-    "start_date_utc": "2024-03-14T12:00:00Z",
-    "table_name": "Table 1",
-    "table_size": 6,
-    "currency": "USD",
-    "ante_amount": 0.0,
-    "small_blind_amount": 0.5,
-    "big_blind_amount": 1.0,
-    "bet_limit": {
-        "bet_cap": 0.0,
-        "bet_type": "NL"
-    },
-    "hero_player_id": 0,
-    "dealer_seat": 0,
-    "players": [
-        {
-            "name": "Hero",
-            "id": 0,
-            "player_bounty": 0,
-            "starting_stack": 100.0,
-            "seat": 2
-        },
-        {
-            "name": "Villain",
-            "id": 1,
-            "player_bounty": 0,
-            "starting_stack": 100.0,
-            "seat": 1
-        }
-    ],
-    "rounds": [
-        {
-            "id": 0,
-            "street": "Preflop",
-            "cards": ["As", "Kd"],
-            "actions": [
-                {
-                    "action_number": 1,
-                    "player_id": 0,
-                    "action": "Raise",
-                    "amount": 15.0,
-                    "is_allin": false
-                },
-                {
-                    "action_number": 2,
-                    "player_id": 1,
-                    "action": "Call",
-                    "amount": 15.0,
-                    "is_allin": false
-                }
-            ]
-        },
-        {
-            "id": 1,
-            "street": "Flop",
-            "cards": ["Ts", "7h", "2d"],
-            "actions": [
-                {
-                    "action_number": 1,
-                    "player_id": 0,
-                    "action": "Bet",
-                    "amount": 20.0,
-                    "is_allin": false
-                },
-                {
-                    "action_number": 2,
-                    "player_id": 1,
-                    "action": "Call",
-                    "amount": 20.0,
-                    "is_allin": false
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "street": "Turn",
-            "cards": ["8c"],
-            "actions": [
-                {
-                    "action_number": 1,
-                    "player_id": 0,
-                    "action": "Check",
-                    "amount": 0.0,
-                    "is_allin": false
-                },
-                {
-                    "action_number": 2,
-                    "player_id": 1,
-                    "action": "Check",
-                    "amount": 0.0,
-                    "is_allin": false
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "street": "River",
-            "cards": ["Ks"],
-            "actions": [
-                {
-                    "action_number": 1,
-                    "player_id": 0,
-                    "action": "Bet",
-                    "amount": 50.0,
-                    "is_allin": false
-                },
-                {
-                    "action_number": 2,
-                    "player_id": 1,
-                    "action": "Raise",
-                    "amount": 250.0,
-                    "is_allin": false
-                }
-            ]
-        }
-    ],
-    "pots": []
-}
-``` 
+The parser expects hand histories in a standard format, typically from online poker sites. The hand history should include:
+- Game information (blinds, table size)
+- Player positions and stacks
+- Hole cards
+- Betting action for each street
+- Community cards
+- Showdown information (if applicable)
+
+## Development
+
+The application consists of:
+- `main.py`: Flask server and hand history parser
+- `static/index.html`: Main interface for parsing hands
+- `static/replayer.html`: Interactive hand replayer
+
+## Notes
+
+- The replayer follows standard poker action order:
+  - Preflop: Starts from UTG, goes clockwise
+  - Postflop: Starts from SB, goes clockwise
+- Player positions are fixed based on the dealer button
+- All bets and stack updates are tracked automatically
+- The replayer supports all standard poker actions (fold, check, call, bet, raise) 
