@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
+
 class GameInfo(BaseModel):
     table_size: int
     small_blind: float
@@ -47,3 +48,4 @@ class RawHandHistory(BaseModel):
 
 class HandHistory(BaseModel):
     raw: RawHandHistory
+

@@ -765,11 +765,70 @@ YOU NEED TO ADD PREFLOP FOLDS AS IN THE JSON to the output for ALL PLAYERS NOT I
 PLAY STARTS TO THE LEFT OF THE BIG BLIND. 
 REMEMBER THIS ALWAYS
 
-If the button is seat n,
+Note that positions are very important! 
 
-Then small blind is seat (n mod 9) + 1,
+Poker Position Mapping (9-Handed Table):
 
-And big blind is seat (n mod 9) + 2 (wrapping around if needed).
+Poker positions are assigned based on the dealer button's seat. The dealer moves clockwise one seat each hand.
+
+Use this order to assign positions starting from the seat left of the big blind, and continuing clockwise:
+
+UTG (Under the Gun)
+
+UTG+1
+
+UTG+2
+
+Lojack
+
+Hijack
+
+Cutoff
+
+Button (Dealer) ← This is the fixed known seat each hand
+
+Small Blind ← Always the seat directly to the left of the button
+
+Big Blind ← Always the seat left of the small blind
+
+Steps:
+
+Find the dealer's seat number.
+
+Assign small blind to (dealer + 1) mod 9
+
+Assign big blind to (dealer + 2) mod 9
+
+Start at (big blind + 1) mod 9 and move clockwise assigning positions:
+
+UTG → UTG+1 → UTG+2 → Lojack → Hijack → Cutoff → (then Button is already known)
+
+Handle wraparound using modulo 9 math, treating seat 9 as next after seat 8, etc.
+Use seat numbers 1 to 9.
+
+Example:
+
+If the dealer is seat 5, then:
+
+Seat 6 = small blind
+
+Seat 7 = big blind
+
+Seat 8 = UTG
+
+Seat 9 = UTG+1
+
+Seat 1 = UTG+2
+
+Seat 2 = Lojack
+
+Seat 3 = Hijack
+
+Seat 4 = Cutoff
+
+Seat 5 = Button
+
+
 
 
 Here are the rules of poker, for your reference, make sure your JSON is always in accordance:

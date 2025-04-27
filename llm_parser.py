@@ -1,10 +1,7 @@
-import os
 from typing import Dict, Any, List, Optional
 from openai import OpenAI
 from dotenv import load_dotenv
-import json
-from datetime import datetime
-from models import HandHistory, RawHandHistory
+from models import HandHistory
 
 load_dotenv()
 
@@ -41,13 +38,10 @@ class LLMHandHistoryParser:
                 
                 return {
                     "hand_history": hand_history.raw.dict(),
-                    "raw_response": response.output[0].content[0].text
                 }
             except Exception as e:
                 return {
-                    "hand_history": None,
-                    "raw_response": response.output[0].content[0].text,
-                    "conversion_error": str(e)
+                    "hand_history": None
                 }
             
         except Exception as e:
