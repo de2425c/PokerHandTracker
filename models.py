@@ -38,7 +38,8 @@ class PotDistribution(BaseModel):
 class Pot(BaseModel):
     amount: float
     rake: float
-    distribution: Optional[List[PotDistribution]] = None
+    distribution: List[PotDistribution]
+    hero_pnl: float
 
 class RawHandHistory(BaseModel):
     game_info: GameInfo

@@ -1,49 +1,43 @@
 from typing import Dict, Any, List, Optional
-from openai import OpenAI
 from dotenv import load_dotenv
 from models import HandHistory
+import google.genai as genai
+import os
 
 load_dotenv()
 
+# Configure Gemini API
+
+client = genai.Client(api_key=os.getenv('GOOGLE_API_KEY'))
+
+
+
 class LLMHandHistoryParser:
     def __init__(self):
-        try:
-            self.client = OpenAI()
-            self.ohh_prompt = open("system_prompt.txt", "r").read()
-        except Exception as e:
-            print(f"Error initializing OpenAI client: {e}")
-            raise
 
+        with open("system_prompt.txt", "r") as f:
+            self.system_prompt = f.read()
 
 
     def parse_hand_history(self, description: str) -> Dict[str, Any]:
         try:
-            print("Sending request to OpenAI...")
-            response = self.client.responses.parse(
-                model="gpt-4o-2024-08-06",
-                input=[
-                    {"role": "system", "content": self.ohh_prompt},
-                    {"role": "user", "content": f"Parse this poker hand history: {description}"}
-                ],
-                text_format=HandHistory
+            prompt = f"{self.system_prompt}\n\nHand Description: {description}"
+            
+            # Generate response
+            response = client.models.generate_content(
+                model = 'gemini-2.0-flash',
+                contents = prompt,
+                config = {
+                    'response_mime_type': 'application/json',
+                    'response_schema': HandHistory
+                }
             )
-            
-            print("Received response from OpenAI")
-            
-            # Extract the raw hand data from the response
-            hand_history = response.output[0].content[0].parsed
-            
-            try:
+            # Parse the response
+            import json
+
+            hand_history = json.loads(response.text)
+            return {"hand_history": hand_history['raw']}
+
                 
-                
-                return {
-                    "hand_history": hand_history.raw.dict(),
-                }
-            except Exception as e:
-                return {
-                    "hand_history": None
-                }
-            
         except Exception as e:
-            print(f"Error in parse_hand_history: {e}")
-            raise Exception(f"Failed to parse hand history: {str(e)}") 
+            raise Exception(f"Error parsing hand history: {str(e)}") 

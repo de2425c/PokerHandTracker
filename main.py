@@ -1,9 +1,5 @@
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.staticfiles import StaticFiles
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, FileResponse
 from typing import Dict, List, Optional, Any
-from datetime import datetime
 from llm_parser import LLMHandHistoryParser
 import json
 import argparse
@@ -22,7 +18,7 @@ async def parse_hand(hand_input: Dict[str, Any]):
         if "description" not in hand_input:
             raise HTTPException(status_code=400, detail="Description is required")
             
-        # Parse the hand history using the LLM parser
+        # Parse the hand history using Gemini
         result = hand_parser.parse_hand_history(
             description=hand_input["description"]
         )
