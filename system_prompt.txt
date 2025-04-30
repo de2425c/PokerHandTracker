@@ -86,6 +86,7 @@ Playing 1/2, 1000 effective It folds to me on the button, I raise to 12 with QJ 
         { "player_name": "Player5", "action": "Folds", "amount": 0 },
         { "player_name": "Player6", "action": "Folds", "amount": 0 },
         { "player_name": "Player7", "action": "Folds", "amount": 0 },
+        { "player_name": "Player8", "action": "Folds", "amount": 0 },
         { "player_name": "Hero", "action": "Raises", "amount": 12 },
         { "player_name": "Player1", "action": "Folds", "amount": 0 },
         { "player_name": "Player2", "action": "Calls", "amount": 10 }
@@ -164,6 +165,7 @@ Playing 2/5, I raise 15 from the button with KJo 1000 effective. Big blind calls
         { "player_name": "Player5", "action": "Folds", "amount": 0 },
         { "player_name": "Player6", "action": "Folds", "amount": 0 },
         { "player_name": "Player7", "action": "Folds", "amount": 0 },
+        { "player_name": "Player8", "action": "Folds", "amount": 0 },
         { "player_name": "Hero", "action": "Raises", "amount": 15 },
         { "player_name": "Player1", "action": "Folds", "amount": 0 },
         { "player_name": "Player2", "action": "Calls", "amount": 13 }
@@ -244,6 +246,7 @@ I have A9 spades at 1/2 1000 effective and I raise the button to 15. Big blind c
         { "player_name": "Player5", "action": "Folds", "amount": 0 },
         { "player_name": "Player6", "action": "Folds", "amount": 0 },
         { "player_name": "Player7", "action": "Folds", "amount": 0 },
+        { "player_name": "Player8", "action": "Folds", "amount": 0 }
         { "player_name": "Hero", "action": "Raises", "amount": 15 },
         { "player_name": "Player1", "action": "Folds", "amount": 0 },
         { "player_name": "Player2", "action": "Calls", "amount": 13 }
